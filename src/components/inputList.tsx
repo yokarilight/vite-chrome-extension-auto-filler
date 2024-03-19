@@ -2,7 +2,7 @@ import { InputItemType } from '../types/index';
 
 type InputListProps = {
   inputList: InputItemType[];
-  setInputList: (inputList: InputItemType[]) => void;
+  setInputList: React.Dispatch<React.SetStateAction<InputItemType[]>>;
 }
 
 function InputList(props: InputListProps) {
@@ -16,13 +16,19 @@ function InputList(props: InputListProps) {
    * @param {string} index - list id
    * @param {string} newValue - new value
    */
-  // const handleChangeInput = (type: string, index: string, newValue: string) => {
-  //   setInputList((pre) => {
-  //     pre[index][type] = newValue;
+  const handleChangeInput = (type: string, index: number, newValue: string) => {
+    setInputList((pre: InputItemType[]) => {
+      const updatedList = [...pre];
+      const target = updatedList[index];
+      if (type === 'inputId') {
+        target.inputId = newValue;
+      } else {
+        target.inputValue = newValue;
+      }
 
-  //     return pre;
-  //   });
-  // };
+      return updatedList;
+    });
+  };
 
   return (
     <div className="input-list-container">
@@ -30,8 +36,8 @@ function InputList(props: InputListProps) {
         return (
           <div className='input-list-item' key={`input-list-item_${index}`}>
             <div>Number {item.id + 1}</div>
-            <input value={item.inputId} type="text" id={`input_id_${index}`} className="form-control" onChange={() => {}} />
-            <input value={item.inputValue} type="text" id={`input_value_${index}`} className="form-control" onChange={() => {}} />
+            <input value={item.inputId} type="text" id={`input_id_${index}`} className="input-id" onChange={(e) => handleChangeInput('inputId', item.id, e.target.value)} />
+            <input value={item.inputValue} type="text" id={`input_value_${index}`} className="input-value" onChange={(e) => handleChangeInput('inputValue', item.id, e.target.value)} />
           </div>
         );
       })}
