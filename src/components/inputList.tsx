@@ -4,15 +4,15 @@ import { toastMsgs } from '../constants';
 import { errorNotify } from '../utils/toast';
 
 type InputListProps = {
-  inputList: InputItemType[];
+  data: InputItemType[];
   setInputList: Dispatch<SetStateAction<InputItemType[]>>;
 }
 
 function InputList(props: InputListProps) {
-  const { inputList, setInputList } = props;
-  console.log('inputList', inputList)
+  const { data, setInputList } = props;
+  console.log('InputList data', data)
 
-  const isDeleteBtnDisabled = inputList.length === 1;
+  const isDeleteBtnDisabled = data.length === 1;
 
   /**
    * change input value
@@ -47,9 +47,9 @@ function InputList(props: InputListProps) {
 
   return (
     <div className="input-list-container">
-      {inputList.map((item, index) => {
+      {data.map((item, index) => {
         return (
-          <div className="input-list-item" key={`input-list-item_${index}`}>
+          <div className="input-list-item" key={`input-list-item-${index}`}>
             <input value={item.inputId} type="text" id={`input_id_${index}`} className="input-id" onChange={(e) => handleChangeInput("inputId", item.id, e.target.value)} />
             <input value={item.inputValue} type="text" id={`input_value_${index}`} className="input-value" onChange={(e) => handleChangeInput("inputValue", item.id, e.target.value)} />
             <div onClick={() => handleDeleteInput(item.id)}>
