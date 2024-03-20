@@ -1,5 +1,5 @@
 export type InputItemType = {
-  id: number;
+  id: string;
   inputId: string;
   inputValue: string;
 }

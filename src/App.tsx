@@ -1,9 +1,13 @@
-import { useState } from 'react';    
-import { v4 as uuidv4 } from 'uuid';          
+import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import { toastMsgs } from './constants';
 import InputList from './components/inputList';
+import { uuid } from './utils';
+import { successNotify } from './utils/toast';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [inputList, setInputList] = useState([{ "id": uuidv4(), "inputId": "example id", "inputValue": "example value" }]);
+  const [ inputList, setInputList ] = useState([{ "id": uuid(), "inputId": "example id", "inputValue": "example value" }]);
 
   // const submitHandler = () => {
   //   console.log(signInRef.current?.value);
@@ -26,33 +30,36 @@ function App() {
     })
 
     chrome.storage.local.set(storageObj, () => {
-      console.log("Saved!");
+      successNotify(toastMsgs.success.saveMsg);
     });
   };
 
-  const getAllLocalItems = () => {
+  const log = () => {
     chrome.storage.local.get(null, (items) => {
       console.log('items', items)
     });
   };
 
   const addInput = () => {
-    setInputList((pre) =>  [ ...pre, { "id": uuidv4(), "inputId": "example id", "inputValue": "example value" } ]);
+    setInputList((pre) =>  [ ...pre, { "id": uuid(), "inputId": "example id", "inputValue": "example value" } ]);
   };
 
   return (
     <>
       <h1>Auto Filler</h1>
-      <InputList inputList={inputList} setInputList={setInputList} />
+      <InputList
+        inputList={inputList}
+        setInputList={setInputList}
+      />
       <div className="card">
         <button id="save-btn" onClick={save}>Save</button>
-        <button id="get-all-btn" onClick={getAllLocalItems}>Get All</button>
+        <button id="log-btn" onClick={log}>Log</button>
         {/* <button onClick={() => submitHandler()}>Submit</button> */}
         <button id="add-new-input-btn" onClick={addInput}>Add Input Container</button>
-        {/* <button id="delete-input-btn" onClick={deleteInput}></button> */}
       </div>
+      <ToastContainer />
     </>
   )
 }
 
-export default App
+export default App;
