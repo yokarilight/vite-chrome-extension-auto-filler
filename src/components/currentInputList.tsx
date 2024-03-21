@@ -11,17 +11,22 @@ type CurrentInputListProps = {
 function CurrentInputList(props: CurrentInputListProps) {
   const { data, setCurrentInputInfo } = props;
 
-  // const handleFillIn = (id: string, value: string) => {
-  //   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  //     try {
-  //       document.getElementById(id).value = value;
-  //       sendResponse({ status: "Success!" });
-  //     } catch (error) {
-  //       console.log(error);
-  //       sendResponse({ status: "Exception occurred!" });
-  //     }
-  //   });
-  // };
+  const handleFillIn = (id: string, value: string) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs && tabs.length && tabs[0].id) {
+        chrome.tabs.sendMessage(tabs[0].id, { id, value }, (response) => {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message);
+            return;
+          }
+  
+          console.log(response.status);
+        });
+      } else {
+        console.error("Unable to find active tab or tab id is undefined");
+      }
+    });
+  };
 
   const handleDeleteFromLocal = (id: string) => {
     chrome.storage.local.remove(id, () => {
@@ -41,9 +46,9 @@ function CurrentInputList(props: CurrentInputListProps) {
           <div className="current-input-list-item" key={`current-input-list-item-${index}`}>
             <div className="current-input-id">{item.inputId}</div>
             <div className="current-input-value">{item.inputValue}</div>
-            {/* <div onClick={() => handleFillIn(item.inputId, item.inputValue)}>
+            <div onClick={() => handleFillIn(item.inputId, item.inputValue)}>
               Fill
-            </div> */}
+            </div>
             <div onClick={() => handleDeleteFromLocal(item.inputId)}>
               Delete from local
             </div>
