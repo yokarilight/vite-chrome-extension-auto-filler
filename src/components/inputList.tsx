@@ -51,7 +51,7 @@ function InputList(props: InputListProps) {
       {data.map((item, index) => {
         return (
           <div className="input-list-item" key={`input-list-item-${index}`}>
-            <div>
+            <div className="mr-5">
               <div className="input-box">
                 <span className="input-box-title">Input Id</span>
                 <input value={item.inputId} type="text" id={`input_id_${index}`} className="input-id" onChange={(e) => handleChangeInput("inputId", item.id, e.target.value)} />
@@ -61,7 +61,7 @@ function InputList(props: InputListProps) {
                 <input value={item.inputValue} type="text" id={`input_value_${index}`} className="input-value" onChange={(e) => handleChangeInput("inputValue", item.id, e.target.value)} />
               </div>
             </div>
-            <div className="text-white" onClick={() => handleDeleteInput(item.id)}>
+            <div className="text-white cursor-pointer" onClick={() => handleDeleteInput(item.id)}>
               <FaTrash />
             </div>
           </div>
