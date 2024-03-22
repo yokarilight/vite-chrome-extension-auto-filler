@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { FaTrash } from "react-icons/fa";
 import { InputItemType } from '../types/index';
 import { toastMsgs } from '../constants';
 import { errorNotify } from '../utils/toast';
@@ -50,10 +51,18 @@ function InputList(props: InputListProps) {
       {data.map((item, index) => {
         return (
           <div className="input-list-item" key={`input-list-item-${index}`}>
-            <input value={item.inputId} type="text" id={`input_id_${index}`} className="input-id" onChange={(e) => handleChangeInput("inputId", item.id, e.target.value)} />
-            <input value={item.inputValue} type="text" id={`input_value_${index}`} className="input-value" onChange={(e) => handleChangeInput("inputValue", item.id, e.target.value)} />
-            <div onClick={() => handleDeleteInput(item.id)}>
-              Delete
+            <div>
+              <div className="input-box">
+                <span className="input-box-title">Input Id</span>
+                <input value={item.inputId} type="text" id={`input_id_${index}`} className="input-id" onChange={(e) => handleChangeInput("inputId", item.id, e.target.value)} />
+              </div>
+              <div className="input-box">
+                <span className="input-box-title">Input Value</span>
+                <input value={item.inputValue} type="text" id={`input_value_${index}`} className="input-value" onChange={(e) => handleChangeInput("inputValue", item.id, e.target.value)} />
+              </div>
+            </div>
+            <div className="text-white" onClick={() => handleDeleteInput(item.id)}>
+              <FaTrash />
             </div>
           </div>
         );

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import { FaDev, FaListAlt, FaPlusCircle, FaSave } from "react-icons/fa";
 import { toastMsgs } from './constants';
 import CurrentInputList from './components/currentInputList';
 import InputList from './components/inputList';
@@ -9,42 +10,39 @@ import { successNotify } from './utils/toast';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [ inputList, setInputList ] = useState<InputItemType[]>([{ "id": uuid(), "inputId": "example id", "inputValue": "example value" }]);
+  const defaultInputList = [
+    {
+      "id": uuid(),
+      "inputId": "",
+      "inputValue": "",
+    },
+  ];
+
+  const [ inputList, setInputList ] = useState<InputItemType[]>(defaultInputList);
   const [ currentInputInfo, setCurrentInputInfo ] = useState<InputItemType[]>([]);
-
-  // const submitHandler = () => {
-  //   console.log(signInRef.current?.value);
-  // };
-
-  // const onClick = async () => {
-  //   const [tab] = await chrome.tabs.query({ active: true });
-  //   chrome.scripting.executeScript({
-  //     target: { tabId: tab.id! },
-  //     func: () => {
-  //       alert('helloooooo')
-  //     }
-  //   });
-  // }
 
   const save = () => {
     const storageObj: { [key: string]: string } = {};
     inputList.forEach((item) => {
       storageObj[item.inputId] = item.inputValue;
-    })
+    });
 
     chrome.storage.local.set(storageObj, () => {
       successNotify(toastMsgs.success.saveMsg);
     });
+
+    setInputList(defaultInputList);
   };
 
+  // console log all ids and values
   const log = () => {
     chrome.storage.local.get(null, (items) => {
-      console.log('items', items)
+      console.log('items', items);
     });
   };
 
-  const addInput = () => {
-    setInputList((pre) =>  [ ...pre, { "id": uuid(), "inputId": "example id", "inputValue": "example value" } ]);
+  const addNewInput = () => {
+    setInputList((pre) =>  [ ...pre, { "id": uuid(), "inputId": "", "inputValue": "" } ]);
   };
 
   const loadExistingInputInfo = () => {
@@ -63,22 +61,35 @@ function App() {
 
   return (
     <>
-      <h1>Auto Filler</h1>
-      <InputList
-        data={inputList}
-        setInputList={setInputList}
-      />
-      <div className="card">
-        <button id="save-btn" onClick={save}>Save</button>
-        <button id="log-btn" onClick={log}>Log</button>
-        {/* <button onClick={() => submitHandler()}>Submit</button> */}
-        <button id="add-new-input-btn" onClick={addInput}>Add Input Container</button>
-        <button id="load-existing-input-info-btn" onClick={loadExistingInputInfo}>Load Existing Input Info</button>
+      <div className="auto-filler-container">
+        <div className="h1">Auto Filler</div>
+        <InputList
+          data={inputList}
+          setInputList={setInputList}
+        />
+        <div className="btn-container">
+          <div id="save-btn" className="btn save-btn" onClick={save}>
+            <FaSave className="btn-icon" />
+            Save
+          </div>
+          <div id="add-new-input-btn" className="btn add-new-input-btn" onClick={addNewInput}>
+            <FaPlusCircle className="btn-icon"  />
+            Add New Input
+          </div>
+          <div id="load-all-btn" className="btn load-all-btn" onClick={loadExistingInputInfo}>
+            <FaListAlt className="btn-icon" />
+            List All
+          </div>
+          <div id="log-btn" className="btn log-btn" onClick={log}>
+            <FaDev className="btn-icon" />
+            Log
+          </div>
+        </div>
+        <CurrentInputList
+          data={currentInputInfo}
+          setCurrentInputInfo={setCurrentInputInfo}
+        />
       </div>
-      <CurrentInputList
-        data={currentInputInfo}
-        setCurrentInputInfo={setCurrentInputInfo}
-      />
       <ToastContainer />
     </>
   )
