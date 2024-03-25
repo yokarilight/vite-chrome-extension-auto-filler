@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FaTrash, FaCheckCircle } from "react-icons/fa";
-import { toastMsgs } from '../constants';
-import { InputItemType } from '../types/index';
-import { successNotify, errorNotify } from '../utils/toast';
+import { toastMsgs } from '@/constants';
+import { InputItemType } from '@/types/index';
+import { successNotify, errorNotify } from '@/utils/toast';
 
 type CurrentInputListProps = {
   data: InputItemType[];

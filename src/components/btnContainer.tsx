@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FaDev, FaPlusCircle, FaSave } from "react-icons/fa";
-import { toastMsgs } from '../constants';
-import { InputItemType } from '../types';
-import { uuid } from '../utils';
-import { successNotify, errorNotify } from '../utils/toast';
+import { toastMsgs } from '@/constants';
+import { InputItemType } from '@/types';
+import { uuid } from '@/utils';
+import { successNotify, errorNotify } from '@/utils/toast';
 
 type BtnContainerProps = {
   inputList: InputItemType[];

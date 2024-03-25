@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { defaultInputList } from './constants';
-import BtnContainer from './components/btnContainer';
-import CurrentInputList from './components/currentInputList';
-import InputList from './components/inputList';
-import { InputItemType } from './types';
-import { uuid } from './utils';
+import { defaultInputList } from '@/constants';
+import BtnContainer from '@/components/btnContainer';
+import CurrentInputList from '@/components/currentInputList';
+import InputList from '@/components/inputList';
+import { InputItemType } from '@/types';
+import { uuid } from '@/utils';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -35,10 +35,12 @@ function App() {
           setInputList={setInputList}
           setCurrentInputInfo={setCurrentInputInfo}
         />
-        <CurrentInputList
-          data={currentInputInfo}
-          setCurrentInputInfo={setCurrentInputInfo}
-        />
+        {currentInputInfo.length ? (
+          <CurrentInputList
+            data={currentInputInfo}
+            setCurrentInputInfo={setCurrentInputInfo}
+          />
+        ) : null}
       </div>
       <ToastContainer />
     </>

@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FaTrash } from "react-icons/fa";
-import { InputItemType } from '../types/index';
-import { toastMsgs } from '../constants';
-import { errorNotify } from '../utils/toast';
+import { InputItemType } from '@/types/index';
+import { toastMsgs } from '@/constants';
+import { errorNotify } from '@/utils/toast';
 
 type InputListProps = {
   data: InputItemType[];
