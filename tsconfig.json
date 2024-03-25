@@ -24,7 +24,7 @@
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
-      "@style/*": ["./src/style/*"],
+      "@styles/*": ["./src/styles/*"],
       "@types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
     },

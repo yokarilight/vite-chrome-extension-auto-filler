@@ -1,0 +1,21 @@
+.input-list-item {
+    @apply flex items-center bg-white-rgba p-3 mb-5;
+    .input-box {
+        @apply flex items-center mb-2;
+        .input-box-title {
+            @apply w-28 text-white font-bold;
+        }
+    }
+}
+
+.input-without-border-outline {
+    @apply outline-none border-none;
+}
+
+.btn {
+    @apply px-2 mr-2 flex items-center text-sm text-white border-2 border-white rounded-md cursor-pointer hover:bg-red-500;
+}
+
+.btn-icon {
+    @apply mr-2;
+}

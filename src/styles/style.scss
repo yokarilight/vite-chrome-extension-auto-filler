@@ -1,0 +1,15 @@
+@import "_global.scss";
+@import "_btnContainer.scss";
+@import "_currentInputList.scss";
+@import "_inputList.scss";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.auto-filler-container {
+    width: 500px;
+    @apply bg-red-400 flex flex-col items-center;
+    .h1 {
+        @apply text-white text-3xl font-bold my-9;
+    }
+}

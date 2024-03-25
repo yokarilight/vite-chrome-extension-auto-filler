@@ -53,11 +53,11 @@ function InputList(props: InputListProps) {
             <div className="mr-5">
               <div className="input-box">
                 <span className="input-box-title">New Input Id</span>
-                <input value={item.inputId} type="text" id={`input_id_${index}`} className="input-id" onChange={(e) => handleChangeInput("inputId", item.id, e.target.value)} />
+                <input value={item.inputId} type="text" id={`input_id_${index}`} className="input-without-border-outline" onChange={(e) => handleChangeInput("inputId", item.id, e.target.value)} />
               </div>
               <div className="input-box">
                 <span className="input-box-title">New Input Value</span>
-                <input value={item.inputValue} type="text" id={`input_value_${index}`} className="input-value" onChange={(e) => handleChangeInput("inputValue", item.id, e.target.value)} />
+                <input value={item.inputValue} type="text" id={`input_value_${index}`} className="input-without-border-outline" onChange={(e) => handleChangeInput("inputValue", item.id, e.target.value)} />
               </div>
             </div>
             <div className="text-white cursor-pointer" onClick={() => handleDeleteInput(item.id)}>
