@@ -11,7 +11,6 @@ type InputListProps = {
 
 function InputList(props: InputListProps) {
   const { data, setInputList } = props;
-  console.log('InputList data', data)
 
   const isDeleteBtnDisabled = data.length === 1;
 
@@ -53,11 +52,11 @@ function InputList(props: InputListProps) {
           <div className="input-list-item" key={`input-list-item-${index}`}>
             <div className="mr-5">
               <div className="input-box">
-                <span className="input-box-title">Input Id</span>
+                <span className="input-box-title">New Input Id</span>
                 <input value={item.inputId} type="text" id={`input_id_${index}`} className="input-id" onChange={(e) => handleChangeInput("inputId", item.id, e.target.value)} />
               </div>
               <div className="input-box">
-                <span className="input-box-title">Input Value</span>
+                <span className="input-box-title">New Input Value</span>
                 <input value={item.inputValue} type="text" id={`input_value_${index}`} className="input-value" onChange={(e) => handleChangeInput("inputValue", item.id, e.target.value)} />
               </div>
             </div>

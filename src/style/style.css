@@ -12,7 +12,7 @@
 }
 
 .input-list-item {
-    @apply flex items-center mb-5;
+    @apply flex items-center bg-white-rgba p-3 mb-5;
 }
 
 .input-box {
@@ -20,7 +20,7 @@
 }
 
 .input-box-title {
-    @apply w-24 text-white font-bold;
+    @apply w-28 text-white font-bold;
 }
 
 .input-id, .input-value {
@@ -41,4 +41,12 @@
 
 .btn-icon {
     @apply mr-2;
+}
+
+.current-input-list-container {
+    @apply w-4/5;
+}
+
+.h3 {
+    @apply text-white text-lg font-bold my-3;
 }

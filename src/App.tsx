@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { FaDev, FaListAlt, FaPlusCircle, FaSave } from "react-icons/fa";
+import { FaDev, FaPlusCircle, FaSave } from "react-icons/fa";
 import { toastMsgs } from './constants';
 import CurrentInputList from './components/currentInputList';
 import InputList from './components/inputList';
 import { InputItemType } from './types';
 import { uuid } from './utils';
-import { successNotify } from './utils/toast';
+import { successNotify, errorNotify } from './utils/toast';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -22,16 +22,37 @@ function App() {
   const [ currentInputInfo, setCurrentInputInfo ] = useState<InputItemType[]>([]);
 
   const save = () => {
+    let isDataValid = true;
     const storageObj: { [key: string]: string } = {};
-    inputList.forEach((item) => {
-      storageObj[item.inputId] = item.inputValue;
-    });
+    for (let i = 0; i < inputList.length; i++) {
+      const currentInputId = inputList[i].inputId;
+      const currentInputVal = inputList[i].inputValue;
+      if (!currentInputId && !currentInputVal) {
+        isDataValid = false;
+        break;
+      }
+      storageObj[currentInputId] = currentInputVal;
+    }
+
+    if (!isDataValid) {
+      errorNotify(toastMsgs.error.saveBtnMsg);
+
+      return;
+    }
 
     chrome.storage.local.set(storageObj, () => {
       successNotify(toastMsgs.success.saveMsg);
     });
 
     setInputList(defaultInputList);
+    setCurrentInputInfo((pre) => {
+      const newArr = [...pre];
+      Object.entries(storageObj).forEach((item) => {
+        newArr.push({ "id": uuid(), "inputId": item[0], "inputValue": item[1] });
+      });
+
+      return newArr;
+    });
   };
 
   // console log all ids and values
@@ -45,7 +66,7 @@ function App() {
     setInputList((pre) =>  [ ...pre, { "id": uuid(), "inputId": "", "inputValue": "" } ]);
   };
 
-  const loadExistingInputInfo = () => {
+  useEffect(() => {
     chrome.storage.local.get(null, (items) => {
       const infoItems: InputItemType[] = [];
       Object.entries(items).forEach((item) => {
@@ -53,11 +74,7 @@ function App() {
       });
       setCurrentInputInfo(infoItems);
     });
-  };
-
-  useEffect(() => {
-    console.log('currentInputInfo', currentInputInfo)
-  }, [currentInputInfo])
+  }, []);
 
   return (
     <>
@@ -74,11 +91,7 @@ function App() {
           </div>
           <div id="add-new-input-btn" className="btn add-new-input-btn" onClick={addNewInput}>
             <FaPlusCircle className="btn-icon"  />
-            Add New Input
-          </div>
-          <div id="load-all-btn" className="btn load-all-btn" onClick={loadExistingInputInfo}>
-            <FaListAlt className="btn-icon" />
-            List All
+            Add
           </div>
           <div id="log-btn" className="btn log-btn" onClick={log}>
             <FaDev className="btn-icon" />
@@ -92,7 +105,7 @@ function App() {
       </div>
       <ToastContainer />
     </>
-  )
+  );
 }
 
 export default App;

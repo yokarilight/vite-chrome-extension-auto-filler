@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { FaTrash, FaCheckCircle } from "react-icons/fa";
 import { toastMsgs } from '../constants';
 import { InputItemType } from '../types/index';
 import { successNotify, errorNotify } from '../utils/toast';
@@ -41,16 +42,29 @@ function CurrentInputList(props: CurrentInputListProps) {
 
   return (
     <div className="current-input-list-container">
+      <div className="h3">Existing Input Info List</div>
       {data.map((item, index) => {
         return (
-          <div className="current-input-list-item" key={`current-input-list-item-${index}`}>
-            <div className="current-input-id">{item.inputId}</div>
-            <div className="current-input-value">{item.inputValue}</div>
-            <div onClick={() => handleFillIn(item.inputId, item.inputValue)}>
-              Fill
+          <div className="input-list-item justify-between" key={`current-input-list-item-${index}`}>
+            <div className="mr-5">
+              <div className="input-box">
+                <span className="input-box-title">Input Id</span>
+                <span className="text-white">{item.inputId}</span>
+              </div>
+              <div className="input-box">
+                <span className="input-box-title">Input Value</span>
+                <span className="text-white">{item.inputValue}</span>
+              </div>
             </div>
-            <div onClick={() => handleDeleteFromLocal(item.inputId)}>
-              Delete from local
+            <div>
+              <div className="btn mb-2" onClick={() => handleFillIn(item.inputId, item.inputValue)}>
+                <FaCheckCircle className="btn-icon" />
+                Apply
+              </div>
+              <div className="btn" onClick={() => handleDeleteFromLocal(item.inputId)}>
+                <FaTrash className="btn-icon" />
+                Remove
+              </div>
             </div>
           </div>
         );
