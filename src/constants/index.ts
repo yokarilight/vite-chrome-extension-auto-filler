@@ -1,3 +1,13 @@
+import { uuid } from '../utils';
+
+export const defaultInputList = [
+  {
+    "id": uuid(),
+    "inputId": "",
+    "inputValue": "",
+  },
+];
+
 export const toastMsgs = {
   "success": {
     "saveMsg": "Save input info successfully!",
