@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FaTrash, FaCheckCircle } from "react-icons/fa";
 import { toastMsgs } from '@/constants';
-import { InputItemType } from '@/types/index';
+import { InputItemType, CurrentInputItemType } from '@/types/index';
 import { successNotify, errorNotify } from '@/utils/toast';
 
 type CurrentInputListProps = {
   data: InputItemType[];
-  setCurrentInputInfo: Dispatch<SetStateAction<InputItemType[]>>;
+  setCurrentInputInfo: Dispatch<SetStateAction<CurrentInputItemType[]>>;
 }
 
 function CurrentInputList(props: CurrentInputListProps) {
@@ -32,7 +32,7 @@ function CurrentInputList(props: CurrentInputListProps) {
   const handleDeleteFromLocal = (id: string) => {
     chrome.storage.local.remove(id, () => {
       try {
-        setCurrentInputInfo((pre: InputItemType[]) => pre.filter(item => item.inputId !== id));
+        setCurrentInputInfo((pre: CurrentInputItemType[]) => pre.filter(item => item.inputId !== id));
         successNotify(toastMsgs.success.deleteFromLocalMsg);
       } catch (err) {
         errorNotify(toastMsgs.error.deleteFromLocalMsg);

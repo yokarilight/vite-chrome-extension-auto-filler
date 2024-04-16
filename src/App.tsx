@@ -5,7 +5,7 @@ import { defaultInputList } from '@/constants';
 import BtnContainer from '@/components/btnContainer';
 import CurrentInputList from '@/components/currentInputList';
 import InputList from '@/components/inputList';
-import { InputItemType } from '@/types';
+import { InputItemType, CurrentInputItemType } from '@/types';
 import { uuid } from '@/utils';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,13 +16,18 @@ function App() {
     console.log('res', res);
   });
   const [ inputList, setInputList ] = useState<InputItemType[]>(defaultInputList);
-  const [ currentInputInfo, setCurrentInputInfo ] = useState<InputItemType[]>([]);
+  const [ currentInputInfo, setCurrentInputInfo ] = useState<CurrentInputItemType[]>([]);
 
   useEffect(() => {
     chrome.storage.local.get(null, (items) => {
-      const infoItems: InputItemType[] = [];
+      const infoItems: CurrentInputItemType[] = [];
       Object.entries(items).forEach((item) => {
-        infoItems.push({ "id": uuid(), "inputId": item[0], "inputValue": item[1] });
+        infoItems.push({
+          "id": uuid(),
+          "inputId": item[0],
+          "inputValue": item[1].inputValue,
+          "exp": item[1].exp,
+        });
       });
       setCurrentInputInfo(infoItems);
     });

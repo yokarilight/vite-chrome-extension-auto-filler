@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FaDev, FaPlusCircle, FaSave } from "react-icons/fa";
 import { toastMsgs } from '@/constants';
-import { InputItemType } from '@/types';
+import { InputItemType, CurrentInputItemType } from '@/types';
 import { uuid } from '@/utils';
 import { successNotify, errorNotify } from '@/utils/toast';
 
 type BtnContainerProps = {
   inputList: InputItemType[];
   setInputList: Dispatch<SetStateAction<InputItemType[]>>;
-  setCurrentInputInfo: Dispatch<SetStateAction<InputItemType[]>>;
+  setCurrentInputInfo: Dispatch<SetStateAction<CurrentInputItemType[]>>;
 }
 
 function BtnContainer(props: BtnContainerProps) {
@@ -16,7 +16,7 @@ function BtnContainer(props: BtnContainerProps) {
 
   const save = () => {
     let isDataValid = true;
-    const storageObj: { [key: string]: string } = {};
+    const storageObj: { [key: string]: { inputValue: string; exp: number } } = {};
     for (let i = 0; i < inputList.length; i++) {
       const currentInputId = inputList[i].inputId;
       const currentInputVal = inputList[i].inputValue;
@@ -24,7 +24,10 @@ function BtnContainer(props: BtnContainerProps) {
         isDataValid = false;
         break;
       }
-      storageObj[currentInputId] = currentInputVal;
+      storageObj[currentInputId] = {
+        "inputValue": currentInputVal,
+        "exp": new Date().getTime(),
+      };
     }
 
     if (!isDataValid) {
@@ -41,7 +44,12 @@ function BtnContainer(props: BtnContainerProps) {
     setCurrentInputInfo((pre) => {
       const newArr = [...pre];
       Object.entries(storageObj).forEach((item) => {
-        newArr.push({ "id": uuid(), "inputId": item[0], "inputValue": item[1] });
+        newArr.push({
+          "id": uuid(),
+          "inputId": item[0],
+          "inputValue": item[1].inputValue,
+          "exp": item[1].exp,
+        });
       });
 
       return newArr;
