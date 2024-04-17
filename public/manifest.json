@@ -6,6 +6,9 @@
   "action": {
     "default_popup": "index.html"
   },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'"
+  }, 
   "permissions": ["storage", "activeTab", "declarativeContent"],
   "content_scripts": [
     {
